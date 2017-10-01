@@ -2,11 +2,13 @@ import os
 import time
 import json
 
+
+# Fills out token.json and users.json based on prompts to the user
 def insertotherstuff():
     print("     [LogDiscordBot] We did it. We successfully installed")
     print("                     the Discord.py libary.")
     time.sleep(0.4)
-    print("     [LogDiscordBot] Let' get started with your token,")
+    print("     [LogDiscordBot] Let' get started with your bot's token,")
     print("                     insert the token WITHOUT ANY SPACES.")
     token = input("     [place the token here]")
     time.sleep(0.4)
@@ -32,47 +34,48 @@ def insertotherstuff():
     time.sleep(0.5)
     print("     [LogDiscordBot] Now in just a few second are you the")
     print("                     moderator.")
-    tokenfile = open("users.json", "r").read()
-    tokenjson = json.loads(tokenfile)
-    tokenjson["moderators"].update({discordid: steamid64})
+    userfile = open("users.json", "r").read()
+    userjson = json.loads(userfile)
+    userjson["moderators"].update({discordid: steamid64})
+    userjson["users"].update({discordid: steamid64})
     file = open("users.json", "w")
-    file.write(json.dumps(tokenjson))
+    file.write(json.dumps(userjson))
     time.sleep(0.5)
     print("     [LogDiscordBot] There you go, everything finished. I")
     print("                     will now start myself for the first time.")
+    file.close()
     os.system('bot.py')
 
+
 def installing():
-    print("     [LogDiscordBot] So I am asking you: Do You wanna")
-    print("                     install the Discord.py libary?")
-    answer = input("     [question]    (y/n)")
-    if answer == "y":
+    print("     [LogDiscordBot] Install required libraries?")
+    answer = input("     [question]    (Y/N)")
+    if answer.upper() == "Y":
         time.sleep(0.4)
         print("     [LogDiscordBot] Let's begin the installing")
         print("                      process...")
         time.sleep(0.4)
 
+        # Installing required libraries
         os.system('pip install discord.py')
         os.system('pip install asyncio')
 
+        # Populating config files
         insertotherstuff()
 
-    elif answer=="n":
+    elif answer.upper() == "N":
         time.sleep(0.4)
-        print("     [LogDiscordBot] Ok! I will then shut down the")
-        print("                     installing process...")
-        time.sleep(0.4)
-        print("     [LogDiscordBot] Byeeeeeee")
+        print("     [LogDiscordBot] Installation aborted, shutting down.")
         time.sleep(2)
     else:
         time.sleep(0.4)
-        print("     [LogDiscordBot] I guess you typed something wrong")
-        print("                     here, lets try it again...")
+        print("     [LogDiscordBot] Bad input. Please type Y or N")
         time.sleep(0.4)
         installing()
 
+
 time.sleep(0.5)
-print("[i]  [status]        asking to install important parts")
+print("[i]  [status]        Starting installation")
 time.sleep(0.4)
 print("     [LogDiscordBot] The LogDiscordBot folder should be now in")
 print("                     the python3 directory, right?")
